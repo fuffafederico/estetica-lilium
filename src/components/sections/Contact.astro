@@ -1,0 +1,129 @@
+---
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import SectionHeading from '../SectionHeading.astro';
+import { site } from '../../data/site';
+
+const contacts = [
+  {
+    icon: 'pin',
+    label: 'Dove siamo',
+    value: [site.address.street, site.address.city],
+    href: site.mapsUrl,
+    action: 'Apri su Google Maps',
+    external: true,
+  },
+  { icon: 'phone', label: 'Telefono', value: [site.phone.display], href: site.phone.href, action: 'Chiama ora' },
+  { icon: 'mail', label: 'Email', value: [site.email], href: `mailto:${site.email}`, action: 'Scrivici' },
+] as const;
+---
+
+<section class="contact" id="contatti" aria-labelledby="contatti-title">
+  <div class="container">
+    <SectionHeading chip="Contatti" id="contatti-title" align="center" class="reveal">Vieni a trovarci</SectionHeading>
+    <p class="lead contact__lead reveal">
+      Siamo a Fabriano, in Viale XIII Luglio. Contattaci per informazioni sui servizi e sui trattamenti del centro.
+    </p>
+
+    <ul class="contact__grid" role="list">
+      {
+        contacts.map((c, i) => (
+          <li class="contact__card reveal" style={`--reveal-delay: ${i * 0.08}s`}>
+            <span class="contact__icon"><Icon name={c.icon} size={26} /></span>
+            <p class="contact__label">{c.label}</p>
+            <a class="contact__value" href={c.href} {...('external' in c ? { target: '_blank', rel: 'noopener' } : {})}>
+              {c.value.map((line, n) => (
+                <>
+                  {n > 0 && <br />}
+                  {line}
+                </>
+              ))}
+            </a>
+            <p class="contact__action" aria-hidden="true">{c.action} →</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="contact__cta reveal">
+      <Button href={site.phone.href} icon="phone">Chiama {site.phone.display}</Button>
+      <Button href={`mailto:${site.email}`} variant="outline" icon="mail">Scrivi una email</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding-block: var(--space-section) calc(var(--space-section) + var(--r-xl));
+    background: var(--sage-100);
+  }
+  .contact__lead {
+    max-width: 36rem;
+    margin: var(--space-s) auto 0;
+    text-align: center;
+    color: var(--cacao);
+  }
+
+  .contact__grid {
+    display: grid;
+    gap: var(--space-s);
+    margin-top: var(--space-l);
+  }
+  .contact__card {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    padding: var(--space-l) var(--space-m);
+    border-radius: var(--r-lg);
+    background: var(--white);
+    text-align: center;
+  }
+  .contact__icon {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: var(--space-2xs);
+    border-radius: 50%;
+    background: var(--sage);
+    color: var(--sage-deep);
+  }
+  .contact__label {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--cacao-soft);
+  }
+  .contact__value {
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    font-weight: 700;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    text-decoration: none;
+  }
+  .contact__value:hover {
+    color: var(--mauve-deep);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  .contact__action {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--mauve-deep);
+  }
+
+  .contact__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 48rem) {
+    .contact__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-m);
+    }
+  }
+</style>

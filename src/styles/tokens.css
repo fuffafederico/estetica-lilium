@@ -1,0 +1,60 @@
+/* Design tokens — Estetica Lilium · direzione "Beauty Boutique" */
+:root {
+  /* Palette cosmetica */
+  --cream: #fff9f5;
+  --white: #ffffff;
+  --blush-100: #fbedec;
+  --blush: #ebcfd0;
+  --nude: #d9b3b5;
+  --mauve: #b98d9a;
+  --mauve-deep: #8a5b6b;
+  --sage-100: #edf2ea;
+  --sage: #dce4d8;
+  --sage-deep: #4f6650;
+  --cacao: #59413f;
+  --cacao-soft: #6f5754;
+
+  /* Tipografia */
+  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --fs-small: 0.9375rem;
+  --fs-body: clamp(1rem, 0.97rem + 0.2vw, 1.125rem);
+  --fs-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --fs-card-title: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);
+  --fs-h2: clamp(2rem, 1.5rem + 2.4vw, 3.375rem);
+  --fs-h1: clamp(2.5rem, 1.65rem + 3.9vw, 4.875rem);
+
+  /* Spaziature */
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem);
+  --space-l: clamp(2rem, 1.5rem + 2vw, 3rem);
+  --space-xl: clamp(3rem, 2rem + 4vw, 5rem);
+  --space-section: clamp(3.75rem, 2.5rem + 5.5vw, 7.5rem);
+
+  /* Contenitori */
+  --container: 76rem;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --header-h: 4.5rem;
+
+  /* Forme e profondità */
+  --r-md: 1.5rem;
+  --r-lg: 2rem;
+  --r-xl: clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem);
+  --r-pill: 999px;
+  --shadow-card: 0 14px 34px -22px rgb(89 65 63 / 0.4);
+  --shadow-float: 0 22px 44px -24px rgb(89 65 63 / 0.5);
+
+  /* Movimento */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-fast: 0.2s;
+  --t-med: 0.5s;
+}
+
+@media (min-width: 60rem) {
+  :root {
+    --header-h: 5.25rem;
+  }
+}

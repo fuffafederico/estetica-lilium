@@ -1,0 +1,50 @@
+---
+import Icon from '../Icon.astro';
+---
+
+<section class="intro section" aria-labelledby="intro-title">
+  <div class="container intro__inner reveal">
+    <Icon name="lily" size={48} class="intro__mark" />
+    <h2 id="intro-title">Il tuo momento, la tua bellezza.</h2>
+    <p class="lead">
+      Prendersi cura di sé significa dedicarsi tempo. Estetica Lilium ti accompagna in un percorso di bellezza e
+      benessere attraverso trattamenti pensati per valorizzare la persona e ritrovare il piacere di sentirsi bene.
+    </p>
+    <ul class="intro__words" role="list" aria-label="Bellezza, benessere, relax">
+      <li>Bellezza</li>
+      <li>Benessere</li>
+      <li>Relax</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .intro__inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-m);
+    max-width: 46rem;
+    text-align: center;
+  }
+  .intro__inner :global(.intro__mark) {
+    color: var(--mauve);
+  }
+  .intro__words {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .intro__words li {
+    padding: 0.45rem 1.25rem;
+    border-radius: var(--r-pill);
+    background: var(--sage);
+    font-weight: 600;
+  }
+  .intro__words li:nth-child(2) {
+    background: var(--blush);
+  }
+  .intro__words li:nth-child(3) {
+    background: var(--blush-100);
+  }
+</style>

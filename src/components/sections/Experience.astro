@@ -1,0 +1,40 @@
+---
+import Button from '../Button.astro';
+---
+
+<section class="experience" aria-labelledby="experience-title">
+  <div class="container">
+    <div class="experience__panel">
+      <div class="experience__copy reveal">
+        <p class="chip">Benessere e relax</p>
+        <h2 id="experience-title">Entra in un mondo di benessere e relax per il tuo corpo e la tua mente.</h2>
+        <Button href="#trattamenti" arrow>Scopri i trattamenti</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .experience {
+    padding-block: var(--space-section);
+  }
+  .experience__panel {
+    border-radius: var(--r-xl);
+    background: var(--blush);
+  }
+  .experience__copy {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: center;
+    max-width: 46rem;
+    margin-inline: auto;
+    padding: clamp(2rem, 1rem + 4vw, 4rem) clamp(1.25rem, 1rem + 2vw, 3rem);
+    text-align: center;
+  }
+  .experience__copy .chip {
+    background: var(--white);
+  }
+  .experience__copy h2 {
+    font-size: clamp(1.875rem, 1.4rem + 2vw, 3.25rem);
+  }
+</style>

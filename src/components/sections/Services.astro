@@ -1,0 +1,35 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import ServiceCard from '../ServiceCard.astro';
+import { services } from '../../data/site';
+---
+
+<section class="services section" id="servizi" aria-labelledby="servizi-title">
+  <div class="container">
+    <SectionHeading chip="Servizi" id="servizi-title" align="center" class="reveal">
+      I nostri servizi
+    </SectionHeading>
+
+    <div class="services__grid">
+      {services.map((s) => <ServiceCard {...s} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services__grid {
+    display: grid;
+    gap: var(--space-s);
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 40rem) {
+    .services__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-m);
+    }
+    .services__grid > :global(:nth-child(2)) {
+      margin-top: var(--space-l);
+    }
+  }
+</style>

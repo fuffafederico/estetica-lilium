@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'white' | 'outline';
+  size?: 'md' | 'sm';
+  icon?: 'phone' | 'mail' | 'pin' | 'instagram' | 'facebook';
+  arrow?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, variant = 'primary', size = 'md', icon, arrow = false, class: className, ...attrs } = Astro.props;
+---
+
+<a href={href} class:list={['btn', `btn--${variant}`, `btn--${size}`, className]} {...attrs}>
+  {icon && <Icon name={icon} size={20} />}
+  <span><slot /></span>
+  {arrow && <Icon name="arrow" size={18} class="btn__arrow" />}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.8rem 1.75rem;
+    border: 1.5px solid transparent;
+    border-radius: var(--r-pill);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      background-color var(--t-fast) var(--ease),
+      color var(--t-fast) var(--ease),
+      border-color var(--t-fast) var(--ease),
+      transform var(--t-fast) var(--ease);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn--sm {
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn--primary {
+    background: var(--mauve-deep);
+    color: var(--white);
+  }
+  .btn--primary:hover {
+    background: var(--cacao);
+  }
+
+  .btn--white {
+    background: var(--white);
+    color: var(--cacao);
+  }
+  .btn--white:hover {
+    background: var(--cream);
+  }
+
+  .btn--outline {
+    border-color: var(--cacao);
+    color: var(--cacao);
+  }
+  .btn--outline:hover {
+    background: var(--cacao);
+    color: var(--cream);
+  }
+
+  .btn :global(.btn__arrow) {
+    flex: none;
+    transition: transform var(--t-fast) var(--ease);
+  }
+  .btn:hover :global(.btn__arrow) {
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .btn :global(.btn__arrow) {
+      transition: none;
+    }
+    .btn:hover,
+    .btn:hover :global(.btn__arrow) {
+      transform: none;
+    }
+  }
+</style>

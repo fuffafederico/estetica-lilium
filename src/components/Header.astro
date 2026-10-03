@@ -1,0 +1,332 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/logo.png';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { nav, site } from '../data/site';
+---
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <p class="topbar__item">
+      <Icon name="pin" size={16} />
+      <a href={site.mapsUrl} target="_blank" rel="noopener">{site.address.full}<span class="visually-hidden"> (si apre in una nuova scheda)</span></a>
+    </p>
+    <p class="topbar__item">
+      <Icon name="phone" size={16} />
+      <a href={site.phone.href}>{site.phone.display}</a>
+    </p>
+  </div>
+</div>
+
+<header class="site-header" data-header>
+  <div class="container site-header__bar">
+    <a class="brand" href="#top" aria-label={`${site.name} – torna all’inizio`}>
+      <Image src={logo} alt={site.name} width={324} height={100} loading="eager" class="brand__logo" />
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      aria-label="Apri il menu"
+      data-menu-toggle
+    >
+      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+
+    <div class="site-menu" id="site-menu" data-menu>
+      <nav class="site-nav" aria-label="Principale">
+        <ul role="list">
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href}>
+                  <span>{item.label}</span>
+                  <Icon name="arrow" size={20} class="site-nav__arrow" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="site-menu__cta">
+        <Button href={site.phone.href} icon="phone" size="sm" class="site-menu__btn">Chiama ora</Button>
+        <p class="site-menu__note">{site.address.full}</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .topbar {
+    display: none;
+    background: var(--blush);
+    font-size: var(--fs-small);
+  }
+  .topbar__inner {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-l);
+    min-height: 2.5rem;
+    align-items: center;
+  }
+  .topbar__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .topbar a {
+    text-decoration: none;
+  }
+  .topbar a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--white);
+    box-shadow: 0 1px 0 rgb(89 65 63 / 0.08);
+  }
+
+  .site-header__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+    min-height: var(--header-h);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+  }
+  .brand :global(.brand__logo) {
+    width: auto;
+    height: 3.25rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin-right: -0.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--blush-100);
+    color: var(--cacao);
+    cursor: pointer;
+  }
+  :global(.js) .menu-toggle {
+    display: inline-grid;
+    margin-right: 0;
+  }
+  .menu-toggle__bars {
+    display: grid;
+    gap: 5px;
+    width: 20px;
+  }
+  .menu-toggle__bars span {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform var(--t-fast) var(--ease),
+      opacity var(--t-fast) var(--ease);
+  }
+  .menu-toggle[aria-expanded='true'] .menu-toggle__bars span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded='true'] .menu-toggle__bars span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle[aria-expanded='true'] .menu-toggle__bars span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Senza JavaScript il menu resta un normale elenco in linea; con JavaScript
+     diventa un pannello a tutto schermo sotto l'header. */
+  .site-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    width: 100%;
+    padding-bottom: var(--space-s);
+  }
+  :global(.js) .site-menu {
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    z-index: 40;
+    justify-content: space-between;
+    gap: var(--space-l);
+    padding: var(--space-m) var(--gutter) calc(var(--space-l) + env(safe-area-inset-bottom));
+    background: var(--cream);
+    overflow-y: auto;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.75rem);
+    transition:
+      opacity var(--t-fast) var(--ease),
+      transform var(--t-fast) var(--ease),
+      visibility 0s linear var(--t-fast);
+  }
+  :global(.js) .site-menu[data-open] {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .site-nav ul {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    border-radius: var(--r-md);
+    background: var(--white);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .site-nav :global(.site-nav__arrow) {
+    color: var(--mauve-deep);
+  }
+
+  .site-menu__cta {
+    display: grid;
+    gap: var(--space-s);
+  }
+  .site-menu__note {
+    font-size: var(--fs-small);
+    color: var(--cacao-soft);
+    text-align: center;
+  }
+
+  @media (min-width: 60rem) {
+    .topbar {
+      display: block;
+    }
+    .brand :global(.brand__logo) {
+      height: 3.75rem;
+    }
+    .menu-toggle,
+    :global(.js) .menu-toggle {
+      display: none;
+    }
+    .site-menu,
+    :global(.js) .site-menu {
+      position: static;
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      flex: 1;
+      width: auto;
+      gap: clamp(1rem, 2.5vw, 2.5rem);
+      padding: 0;
+      background: none;
+      overflow: visible;
+    }
+    .site-nav ul {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .site-nav a {
+      padding: 0.6rem 1.1rem;
+      border-radius: var(--r-pill);
+      background: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background-color var(--t-fast) var(--ease);
+    }
+    .site-nav a:hover {
+      background: var(--blush-100);
+    }
+    .site-nav :global(.site-nav__arrow),
+    .site-menu__note {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-menu,
+    .menu-toggle__bars span,
+    .site-nav a {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const desktop = window.matchMedia('(min-width: 60rem)');
+  // Il resto della pagina viene reso inerte mentre il menu è aperto
+  const background = document.querySelectorAll<HTMLElement>('main, footer');
+
+  if (header && toggle && menu) {
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+    const setOpen = (open: boolean, returnFocus = true) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu');
+      menu.toggleAttribute('data-open', open);
+      document.documentElement.classList.toggle('menu-open', open);
+      background.forEach((el) => (el.inert = open));
+      if (open) {
+        menu.querySelector<HTMLElement>('a')?.focus();
+      } else if (returnFocus) {
+        toggle.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => setOpen(!isOpen()));
+
+    // Si chiude quando si sceglie una voce
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a') && isOpen()) setOpen(false, false);
+    });
+
+    header.addEventListener('keydown', (event) => {
+      if (!isOpen()) return;
+      if (event.key === 'Escape') {
+        setOpen(false);
+        return;
+      }
+      // Focus trap: Tab resta dentro header + menu
+      if (event.key === 'Tab') {
+        const focusable = [toggle, ...menu.querySelectorAll<HTMLElement>('a[href]')];
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+        if (event.shiftKey && active === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && active === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    desktop.addEventListener('change', (event) => {
+      if (event.matches && isOpen()) setOpen(false, false);
+    });
+  }
+</script>

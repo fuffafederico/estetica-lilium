@@ -1,0 +1,42 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import TreatmentCard from '../TreatmentCard.astro';
+import { treatments } from '../../data/site';
+---
+
+<section class="treatments" id="trattamenti" aria-labelledby="trattamenti-title">
+  <div class="container treatments__inner">
+    <SectionHeading chip="Trattamenti" id="trattamenti-title" class="reveal">
+      Trattamenti per il corpo e per la mente
+    </SectionHeading>
+
+    <div class="treatments__grid">
+      {treatments.map((t) => <TreatmentCard {...t} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .treatments {
+    padding-block: var(--space-section);
+    border-radius: var(--r-xl);
+    background: var(--blush-100);
+  }
+  .treatments__inner {
+    display: grid;
+    gap: var(--space-l);
+  }
+  /* Quattro schede identiche: stessa larghezza e stessa altezza */
+  .treatments__grid {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  @media (min-width: 48rem) {
+    .treatments__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: 1fr;
+      gap: var(--space-m);
+    }
+  }
+</style>

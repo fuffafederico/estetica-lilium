@@ -1,0 +1,26 @@
+---
+interface Props {
+  chip: string;
+  id: string;
+  align?: 'start' | 'center';
+  class?: string;
+}
+const { chip, id, align = 'start', class: className } = Astro.props;
+---
+
+<div class:list={['section-heading', align === 'center' && 'section-heading--center', className]}>
+  <p class="chip">{chip}</p>
+  <h2 id={id}><slot /></h2>
+</div>
+
+<style>
+  .section-heading {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+  .section-heading--center {
+    justify-items: center;
+    text-align: center;
+  }
+</style>

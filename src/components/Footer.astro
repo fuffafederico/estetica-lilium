@@ -1,0 +1,167 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/logo.png';
+import Icon from './Icon.astro';
+import { nav, site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__main">
+    <a href="#top" class="footer__brand" aria-label={`${site.name} – torna all’inizio`}>
+      <Image src={logo} alt={site.name} width={324} height={100} loading="lazy" class="footer__logo" />
+    </a>
+    <p class="footer__tagline">Centro estetico a Fabriano · trattamenti viso e corpo, massaggi e percorsi SPA.</p>
+
+    <nav aria-label="Navigazione del sito">
+      <ul class="footer__nav" role="list">
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <address class="footer__contacts">
+      <a href={site.mapsUrl} target="_blank" rel="noopener">
+        <Icon name="pin" size={20} />{site.address.full}<span class="visually-hidden"> (si apre in una nuova scheda)</span>
+      </a>
+      <a href={site.phone.href}><Icon name="phone" size={20} />{site.phone.display}</a>
+      <a href={`mailto:${site.email}`}><Icon name="mail" size={20} />{site.email}</a>
+    </address>
+
+    <ul class="footer__social" role="list" aria-label="Profili social">
+      {
+        site.socials.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="noopener" aria-label={`${s.label} (si apre in una nuova scheda)`}>
+              <Icon name={s.label === 'Instagram' ? 'instagram' : 'facebook'} size={22} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="container footer__bar">
+    <p>© {year} {site.name} · Website by Federico Fuffa</p>
+    <ul role="list">
+      {
+        site.legal.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noopener">{l.label}<span class="visually-hidden"> (si apre in una nuova scheda)</span></a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    margin-top: calc(-1 * var(--r-xl));
+    padding-top: var(--space-xl);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    background: var(--blush);
+    text-align: center;
+  }
+  .footer a {
+    text-decoration: none;
+  }
+
+  .footer__main {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-m);
+    padding-bottom: var(--space-l);
+  }
+  .footer__brand :global(.footer__logo) {
+    width: auto;
+    height: 4.5rem;
+  }
+  .footer__tagline {
+    max-width: 30rem;
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .footer__nav a {
+    display: inline-block;
+    padding: 0.55rem 1.25rem;
+    border-radius: var(--r-pill);
+    background: rgb(255 255 255 / 0.6);
+    font-weight: 600;
+    transition: background-color var(--t-fast) var(--ease);
+  }
+  .footer__nav a:hover {
+    background: var(--white);
+  }
+
+  .footer__contacts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-xs) var(--space-l);
+  }
+  .footer__contacts a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-block: 0.35rem;
+    text-align: left;
+  }
+  .footer__contacts a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .footer__social a {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--white);
+    transition:
+      background-color var(--t-fast) var(--ease),
+      color var(--t-fast) var(--ease);
+  }
+  .footer__social a:hover {
+    background: var(--mauve-deep);
+    color: var(--white);
+  }
+
+  .footer__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs) var(--space-m);
+    padding-block: var(--space-m);
+    border-top: 1px solid rgb(89 65 63 / 0.18);
+    font-size: var(--fs-small);
+  }
+  .footer__bar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+  }
+  .footer__bar a {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer__nav a,
+    .footer__social a {
+      transition: none;
+    }
+  }
+</style>

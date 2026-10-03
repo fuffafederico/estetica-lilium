@@ -1,0 +1,115 @@
+---
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import { promotions, site } from '../../data/site';
+
+const hasPromotions = promotions.length > 0;
+---
+
+<section class="promo" id="promozioni" aria-labelledby="promozioni-title">
+  <div class="container">
+    <div class="promo__panel reveal">
+      <span class="promo__icon"><Icon name="gift" size={40} /></span>
+
+      <div class="promo__copy">
+        <h2 id="promozioni-title">Promozioni</h2>
+        {
+          hasPromotions ? (
+            <ul class="promo__list" role="list">
+              {promotions.map((p) => (
+                <li>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                  {p.validUntil && <p class="promo__valid">Valida fino al {p.validUntil}</p>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <>
+              <p class="promo__message">Al momento non ci sono promozioni attive.</p>
+              <p>Nel frattempo puoi seguire il centro sui social o contattarci per qualsiasi informazione.</p>
+            </>
+          )
+        }
+      </div>
+
+      <div class="promo__actions">
+        {
+          site.socials.map((s) => (
+            <Button
+              href={s.href}
+              variant="white"
+              icon={s.label === 'Instagram' ? 'instagram' : 'facebook'}
+              target="_blank"
+              rel="noopener"
+            >
+              {s.label}
+              <span class="visually-hidden"> (si apre in una nuova scheda)</span>
+            </Button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .promo {
+    padding-block: var(--space-s) var(--space-section);
+  }
+  .promo__panel {
+    display: grid;
+    gap: var(--space-m);
+    align-items: center;
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    border-radius: var(--r-xl);
+    background: var(--blush);
+  }
+  .promo__icon {
+    display: grid;
+    place-items: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--mauve-deep);
+  }
+  .promo__copy {
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .promo__copy h2 {
+    font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  }
+  .promo__message {
+    font-size: var(--fs-lead);
+    font-weight: 700;
+  }
+  .promo__list {
+    display: grid;
+    gap: var(--space-s);
+  }
+  .promo__list li {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .promo__valid {
+    font-size: var(--fs-small);
+  }
+  .promo__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  @media (min-width: 56rem) {
+    .promo__panel {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: var(--space-l);
+    }
+    .promo__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>

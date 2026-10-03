@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  slug: string;
+  title: string;
+  text: string;
+  icon: 'nail' | 'drop' | 'lash';
+  tone: 'blush' | 'sage' | 'nude';
+}
+const { slug, title, text, icon, tone } = Astro.props;
+---
+
+<article class={`service service--${tone} reveal`} id={slug}>
+  <span class="service__icon"><Icon name={icon} size={40} /></span>
+  <h3>{title}</h3>
+  <p>{text}</p>
+  <a class="service__link" href="#contatti">Chiedi informazioni <Icon name="arrow" size={18} /></a>
+</article>
+
+<style>
+  .service {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+    padding: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+    border-radius: var(--r-lg);
+  }
+  .service:hover {
+    box-shadow: var(--shadow-card);
+  }
+  .service--blush {
+    background: var(--blush-100);
+  }
+  .service--sage {
+    background: var(--sage-100);
+  }
+  .service--nude {
+    background: var(--blush);
+  }
+
+  .service__icon {
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    height: 4.25rem;
+    margin-bottom: var(--space-2xs);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--mauve-deep);
+  }
+  .service--sage .service__icon {
+    color: var(--sage-deep);
+  }
+  .service p {
+    color: var(--cacao-soft);
+  }
+  .service--nude p {
+    color: var(--cacao);
+  }
+
+  .service__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: fit-content;
+    margin-top: var(--space-2xs);
+    padding-block: 0.7rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.3em;
+  }
+
+  /* Smartphone: icona accanto al testo, scheda più compatta */
+  @media (max-width: 39.99rem) {
+    .service {
+      grid-template-columns: auto 1fr;
+      column-gap: var(--space-s);
+      align-items: start;
+    }
+    .service__icon {
+      grid-row: 1 / span 2;
+      width: 3.5rem;
+      height: 3.5rem;
+      margin: 0;
+    }
+    .service__icon :global(svg) {
+      width: 32px;
+      height: 32px;
+    }
+    .service p,
+    .service__link {
+      grid-column: 2;
+    }
+  }
+</style>
